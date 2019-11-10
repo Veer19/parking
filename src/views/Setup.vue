@@ -9,7 +9,11 @@
       </div>
     <div class="adminSetup" v-if="category=='admin'">
         <div class="question">Where are the parking lots located?</div>
-        <div id='map' style='width: 100%; height: 500px;'></div>
+        <div id="map"></div>
+        <div v-for="(parkingLot,index) in parkingLotCoordinates" v-bind:key="parkingLot">
+            {{index+1}} <input v-model="parkingLotCoordinates[index]['numberOfSpots']">
+            {{parkingLotCoordinates[index]}}
+        </div>
         <div class="sumbitButton fancy-button bg-gradient2" @click="parkingLotsSelected"><span><i class="fa fa-envelope"></i>All Selected</span></div>
     </div>
     <div class="userSetup" v-if="category=='user'">
@@ -45,58 +49,61 @@ export default {
         let self = this;
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVlcjE5IiwiYSI6ImNrMnJqcjZhdTBxbHAzaXBoZHlhZjFwNnYifQ.1w8oqCFBa72f1vy3-v6z2w';
         this.$getLocation({
-            enableHighAccuracy: false, //defaults to false
+            enableHighAccuracy: true, //defaults to false
             timeout: Infinity, //defaults to Infinity
             maximumAge: 0 //defaults to 0
         })
         .then(coordinates => {
-            console.log(coordinates);
-            
-            var map = new mapboxgl.Map({
-                container: 'map',
-                style: 'mapbox://styles/mapbox/streets-v11',
-                center: [coordinates.lng, coordinates.lat],
-                zoom: 15
-            });
-            map.on('load', function () {
-                var marker = new mapboxgl.Marker()
-                    .setLngLat([coordinates.lng, coordinates.lat],)
-                    .addTo(map);
-            });
-
-            map.on('click', function (e) {
-                let clickedCoordinates = {
-                    lng: e.lngLat.wrap().lng,
-                    lat: e.lngLat.wrap().lat
-                }
-                console.log(clickedCoordinates)
-                self.parkingLotCoordinates.push(clickedCoordinates)
+            console.log(coordinates)
+            let yourLocation = {lat:coordinates.lat, lng:coordinates.lng }
+            var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+            var map = new google.maps.Map(document.getElementById('map'), {zoom: 18, center:yourLocation });
+            var marker = new google.maps.Marker({position: yourLocation, map: map,icon:iconBase+'info-i_maps.png'});
+            let c=1
+            google.maps.event.addListener(map, 'click', function(event) {
+                self.parkingLotCoordinates.push({lat:event.latLng.lat(),lng:event.latLng.lng()})
                 console.log(self.parkingLotCoordinates)
-                var marker = new mapboxgl.Marker()
-                    .setLngLat([clickedCoordinates.lng, clickedCoordinates.lat])
-                    .addTo(map);
+                var marker = new google.maps.Marker({
+                    position: event.latLng,
+                    label : ""+c,
+                    map: map,
+                    // icon: iconBase + 'parking_lot_maps.png',
+                });
+                c = c + 1
             });
         });
     },
     parkingLotsSelected(){
         this.uid = localStorage.getItem('uid')
-        console.log(this.parkingLotCoordinates)
         firebaseApp.db.doc("users/"+this.uid).update({
             parkingLots:this.parkingLotCoordinates
         })
         this.parkingLotCoordinates.forEach(x=>{
+            console.log(x)
+            x.numberOfSpots = parseInt(x.numberOfSpots)
+            x.spots= []
+            for(let i=0;i<x.numberOfSpots;i++){
+                x.spots.push("")
+            }
             firebaseApp.db.collection("parkingLots").add(x)
+            .then(snapshot=>{
+                console.log(snapshot.id)
+                firebaseApp.db.doc("parkingLots/"+snapshot.id).update({
+                    id:snapshot.id
+                })
+            })
         })
         let apikey = "AIzaSyB_vaGVTbrkNy4gcXoCRZ0FmbeWaGZE8ZA"
     },
     userSetup(){
-
+        this.category = "user"
     },
     submitPlateNumber(){
         this.uid = localStorage.getItem('uid')
         firebaseApp.db.doc("users/"+this.uid).update({
             plateNumber:this.plateNumber
         }).then(x=>{
+            localStorage.setItem('plateNumber',this.plateNumber)
             this.$router.push('home')
         })
     }
@@ -107,6 +114,10 @@ export default {
 
 </script>
 <style scoped>
+ #map {
+        height: 400px;  /* The height is 400 pixels */
+        width: 100%;  /* The width is the width of the web page */
+       }
 .columns {
   height: 100vh;
   width: 100vw;
