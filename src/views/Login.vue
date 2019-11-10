@@ -18,6 +18,7 @@ export default {
   name: 'login',
   methods:{
     login(){
+      
       var provider = new firebase.auth.GoogleAuthProvider();
       firebaseApp.auth.signInWithPopup(provider)
       .then(snapshot=>{
@@ -36,7 +37,7 @@ export default {
             this.$router.push('setup')
           }
           else {
-              if (doc.data().type == "Admin"){
+              if (doc.data().type == "admin"){
                   this.$router.push('admin')
               }
               else {
@@ -50,6 +51,11 @@ export default {
           
       })
     }
+  },
+  beforeMount(){
+    if(localStorage.getItem('uid') != null){
+        this.$router.push('home')
+      }
   }
 }
 
