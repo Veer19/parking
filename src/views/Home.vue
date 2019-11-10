@@ -1,12 +1,12 @@
-<template>
-  <div class="home">
+<template >
+  <div class="home background">
     <div id="map"></div>
-    <div class="sumbitButton" @click="initParking">I need to park</div>
-        
-
-    {{apiData}}
+    <div class="play-button-container">
+      <div class="play-button">
+        <div class="button" @click="initParking">Park Now</div>
+      </div>
+    </div>
   </div>
-  
 </template>
 
 <script>
@@ -27,6 +27,7 @@ export default {
   },
   methods: {
     initParking(){
+      document.getElementById('map').style.height = 100+"vh"
       let abc = this
       // console.log(this.parkingLotDistances)
       let parkingLots = this.parkingLotDistances.rows[0].elements
@@ -44,8 +45,8 @@ export default {
       firebaseApp.db.doc("parkingLots/"+this.parkingDestination.id).onSnapshot(snapshot=>{
         let data = snapshot.data()
         for(let i=0;i<data.spots.length;i++){
-          if(data.spots[i].plateNumber == plateNumber){
-            this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
+          if(plateNumber!="" && data.spots[i].plateNumber == plateNumber){
+            // this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
           }
         }
       })
@@ -144,9 +145,89 @@ export default {
   
 }
 </script>
-<style>
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+.columns {
+  height: 100vh;
+  width: 100vw;
+  text-align:center;
+  justify-content: center;
+  margin: 0;
+  background-size: cover;
+  align-items: center;
+  background-position: center;
+  display: flex;
+}
+.column
+{    justify-content: center;
 
+}
+
+@media (max-width: 670px){
+.play-button-container {
+    margin: 0 auto -20%;
+}
+}
+@media (max-width: 960px){
+.play-button-container {
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
+}
+}
+.play-button-container {
+      margin-top: 100px;
+
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: -webkit-linear-gradient(330deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.2) 100%);
+    background: linear-gradient(120deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.2) 100%);
+    box-shadow: 0 24px 72px 0 rgba(0,0,0,.5);
+    -webkit-transition: 300ms all cubic-bezier(.4,0,.2,1);
+    transition: 300ms all cubic-bezier(.4,0,.2,1);
+}
+.play-button-container 
+.play-button {
+    z-index: 2;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,.3);
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-transition: 300ms all cubic-bezier(.4,0,.2,1);
+    transition: 300ms all cubic-bezier(.4,0,.2,1);
+}
+.background{
+  background-image: url("../assets/parknow.png");
+  background-position: right;
+  height: 100vh;
+    display: flex;
+    align-items: center;
+}
+.button{
+    font-size: 40px;
+   font-family: 'Open Sans', sans-serif;
+}
 #map {
-        height: 500px;
+  width: 100vw;
+        height:0px;
+        position: absolute;
+        z-index: 1000000000000000;
+        top: 0;
+        left: 0;
       }
 </style>
