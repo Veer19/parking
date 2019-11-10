@@ -3,11 +3,13 @@
     <div id="map"></div>
     <div class="play-button-container">
       <div class="play-button">
-        <div class="button" @click="initParking">Park Now</div>
+        <div class="button" style="color:black !important;" @click="initParking">Park Now</div>
       </div>
     </div>
+    <div class=" bottom" @click="parked" v-if="showParkedButton"><span><i class="fa fa-envelope"></i>I'm There</span></div>
   </div>
 </template>
+
 
 <script>
 // @ is an alias to /src
@@ -22,12 +24,17 @@ export default {
       apiKey:"AIzaSyB_vaGVTbrkNy4gcXoCRZ0FmbeWaGZE8ZA",
       parkingLotDistances:{},
       destinations:[],
-      destinationCoordinates:[]
+      destinationCoordinates:[],
+      showParkedButton:false
     }
   },
   methods: {
+    parked(){
+      this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
+    },
     initParking(){
-      document.getElementById('map').style.height = 100+"vh"
+      document.getElementById('map').style.height = 80+"vh"
+      this.showParkedButton = true
       let abc = this
       // console.log(this.parkingLotDistances)
       let parkingLots = this.parkingLotDistances.rows[0].elements
@@ -46,7 +53,7 @@ export default {
         let data = snapshot.data()
         for(let i=0;i<data.spots.length;i++){
           if(plateNumber!="" && data.spots[i].plateNumber == plateNumber){
-            // this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
+            
           }
         }
       })
@@ -147,6 +154,19 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+.bottom{
+  position: absolute;
+    bottom: 0;
+    /* bottom: 50px; */
+    height: 20vh;
+    background: linear-gradient(120deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.2) 100%);
+    width: 100%;
+    /* margin: 100px; */
+    padding: 50px;
+    font-size: 30px;
+    box-sizing: border-box;
+    color: white;
+}
 .columns {
   height: 100vh;
   width: 100vw;
