@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Setup from '../views/Setup.vue'
+import ParkingEnter from '../views/ParkingEnter.vue'
 
 Vue.use(VueRouter)
 
@@ -25,6 +26,12 @@ const routes = [
     name: 'setup',
     component: Setup
   },
+  {
+    path: '/parkingEnter/:spot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  
 ]
 
 const router = new VueRouter({

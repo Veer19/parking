@@ -21,6 +21,7 @@ export default {
         let user = snapshot.user
         localStorage.setItem('uid',user.uid)
         localStorage.setItem('name',user.displayName)
+        
         return firebaseApp.db.doc("users/"+user.uid).get()
         .then(doc => {
           if(!doc.exists){
