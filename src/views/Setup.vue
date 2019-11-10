@@ -1,28 +1,40 @@
 <template class='background'>
 <div class="columns">
-    <div class="popup" v-if="showPopup">
-        Where do we keep an eye?
-        <div class="option-button" @click="pushParkingData('entryexit')">Entry and Exit</div>
-        <div class="option-button" @click="pushParkingData('overview')">Over the Parking Lot</div>
-    </div>
+<div class="modal popup" v-if="showPopup"> 
+  <div class="modal-content"> 
+    <span class="close-button ">&times;</span> 
+    <h1>Where do we keep an eye?</h1> 
+    <div class="option-button fancy-button" @click="pushParkingData('entryexit')"><span><i class="fa fa-envelope"></i>Entry and Exit</span></div>
+     <div class="option-button fancy-button" @click="pushParkingData('overview')"><span><i class="fa fa-envelope"></i>Over the Parking Lot</span>
+     </div> 
+     </div> 
+     </div>
   <div class="column">
       
       <div v-if="category==''">
-        <div class="question">Who are you?</div>
-        <div class="option-button" @click="adminSetup">I own a parking lot</div>
-        <div class="option-button" @click="userSetup">I park my car everywhere</div>
+        <div class="question" style="font-size: 40px;">Who are you?</div>
+          <div class="sumbitButton fancy-button bg-gradient2" @click="adminSetup"><span><i class="fa fa-envelope"></i>I own a parking lot</span></div>
+          <div class="sumbitButton fancy-button bg-gradient2" @click="userSetup"><span><i class="fa fa-envelope"></i>I park my car a lot</span></div>
       </div>
     <div class="adminSetup" v-if="category=='admin'">
         <div class="question">Where are the parking lots located?</div>
         <div id="map"></div>
         <div v-for="(parkingLot,index) in parkingLotCoordinates" v-bind:key="parkingLot">
-            {{index+1}} <input v-model="parkingLotCoordinates[index]['numberOfSpots']">
+            <label for="inp" class="inp">
+           <input type="text" v-model="parkingLotCoordinates[index]['numberOfSpots']" id="inp" placeholder="&nbsp;">
+           <span class="label">{{index+1}}</span>
+           <span class="border"></span>
+          </label>
         </div>
-        <div class="sumbitButton fancy-button bg-gradient2" @click="parkingLotsSelected"><span><i class="fa fa-envelope"></i>All Selected</span></div>
+        <div class="sumbitButton fancy-button bg-gradient2" @click="parkingLotsSelected"><span><i class="fa fa-envelope"></i>I am all done!</span></div>
     </div>
     <div class="userSetup" v-if="category=='user'">
         <div class="question">Can we know your lisence plate number?</div>
-        <input class="plateNumber" v-model="plateNumber" placeholder="Lisence Plate Number" />
+         <label for="inp" class="inp">
+           <input type="text plateNumber" id="inp" placeholder="&nbsp;">
+           <span class="label">Lisence Plate Number</span>
+           <span class="border"></span>
+          </label>
         <div class="sumbitButton fancy-button bg-gradient2" @click="submitPlateNumber"><span><i class="fa fa-envelope"></i>Submit</span></div>
     </div>
   </div>
@@ -45,7 +57,8 @@ export default {
         currentPlace: null,
         plateNumber:"",
         parkingLotCoordinates: [],
-        uid:''
+        uid:'',
+        showPopup:false
       }
   },
   methods:{
@@ -126,6 +139,55 @@ export default {
 
 </script>
 <style scoped>
+    .modal {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(1.1);
+        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
+    }
+    .modal-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 1rem 1.5rem;
+        width: 24rem;
+        border-radius: 0.5rem;
+    }
+    .close-button {
+        float: right;
+        width: 1.5rem;
+        line-height: 1.5rem;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 0.25rem;
+        background-color: lightgray;
+    }
+    .close-button:hover {
+        background-color: darkgray;
+    }
+    .show-modal {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1.0);
+        transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+    }
+
+@media screen and (max-width: 700px){
+  .box{
+    width: 70%;
+  }
+  .popup{
+    width: 70%;
+  }
+}
  #map {
         height: 400px;  /* The height is 400 pixels */
         width: 100%;  /* The width is the width of the web page */
@@ -238,4 +300,139 @@ a:hover, a:focus, a:active {
           filter: blur(10px) brightness(0.95);
   transition: all 0.2s ease-out;
 }
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+.columns {
+  height: 100vh;
+  width: 100vw;
+  text-align:center;
+  justify-content: center;
+  margin: 0;
+  background-size: cover;
+  align-items: center;
+  background-position: center;
+  display: flex;
+}
+.column
+{    justify-content: center;
+
+}
+
+@media (max-width: 670px){
+.play-button-container {
+    margin: 0 auto -20%;
+}
+}
+@media (max-width: 960px){
+.play-button-container {
+    -webkit-transform: scale(.8);
+    transform: scale(.8);
+}
+}
+.play-button-container {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: -webkit-linear-gradient(330deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.2) 100%);
+    background: linear-gradient(120deg,rgba(255,255,255,0) 0%,rgba(255,255,255,.2) 100%);
+    box-shadow: 0 24px 72px 0 rgba(0,0,0,.5);
+    -webkit-transition: 300ms all cubic-bezier(.4,0,.2,1);
+    transition: 300ms all cubic-bezier(.4,0,.2,1);
+}
+.play-button-container 
+.play-button {
+    z-index: 2;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,.3);
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-transition: 300ms all cubic-bezier(.4,0,.2,1);
+    transition: 300ms all cubic-bezier(.4,0,.2,1);
+}
+.background{
+  background-image: url("../assets/logiin.png");
+  background-position: right;
+}
+.button{
+    font-size: 40px;
+   font-family: 'Open Sans', sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+.inp {
+  position: relative;
+  margin: auto;
+  width: 100%;
+  max-width: 280px;
+}
+.inp .label {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  font-size: 16px;
+  color: #9098a9;
+  font-weight: 500;
+  transform-origin: 0 0;
+  transition: all 0.2s ease;
+}
+.inp .border {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background: #07f;
+  transform: scaleX(0);
+  transform-origin: 0 0;
+  transition: all 0.15s ease;
+}
+.inp input {
+  -webkit-appearance: none;
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  padding: 12px 0;
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 2px solid #c8ccd4;
+  background: none;
+  border-radius: 0;
+  color: #223254;
+  transition: all 0.15s ease;
+}
+.inp input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus {
+  background: none;
+  outline: none;
+}
+.inp input:focus + span {
+  color: #07f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus + span + .border {
+  transform: scaleX(1);
+}
+
 </style>
