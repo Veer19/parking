@@ -104,6 +104,7 @@ export default {
   },
   mounted(){
     let abc = this
+    
     let docData = {}
     this.$getLocation({
             enableHighAccuracy: true, //defaults to false
@@ -114,6 +115,7 @@ export default {
       let origin = new google.maps.LatLng(coordinates.lat, coordinates.lng);
       abc.destinations = [] 
       firebaseApp.db.collection("parkingLots").onSnapshot(snapshot=>{
+        abc.destinationCoordinates = []
         snapshot.forEach(doc=>{
           docData = doc.data()
           console.log(docData)

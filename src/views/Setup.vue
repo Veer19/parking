@@ -1,5 +1,10 @@
 <template class='background'>
 <div class="columns">
+    <div class="popup" v-if="showPopup">
+        Where do we keep an eye?
+        <div class="option-button" @click="pushParkingData('entryexit')">Entry and Exit</div>
+        <div class="option-button" @click="pushParkingData('overview')">Over the Parking Lot</div>
+    </div>
   <div class="column">
       
       <div v-if="category==''">
@@ -12,7 +17,6 @@
         <div id="map"></div>
         <div v-for="(parkingLot,index) in parkingLotCoordinates" v-bind:key="parkingLot">
             {{index+1}} <input v-model="parkingLotCoordinates[index]['numberOfSpots']">
-            {{parkingLotCoordinates[index]}}
         </div>
         <div class="sumbitButton" @click="parkingLotsSelected">All Selected</div>
     </div>
@@ -40,11 +44,16 @@ export default {
         places: [],
         currentPlace: null,
         plateNumber:"",
-        parkingLotCoordinates: []
+        parkingLotCoordinates: [],
+        uid:''
       }
   },
   methods:{
     adminSetup(){
+        this.uid = localStorage.getItem('uid')
+        firebaseApp.db.doc("users/"+this.uid).update({
+            type:"admin"
+        })
         this.category = "admin";
         let self = this;
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVlcjE5IiwiYSI6ImNrMnJqcjZhdTBxbHAzaXBoZHlhZjFwNnYifQ.1w8oqCFBa72f1vy3-v6z2w';
@@ -74,13 +83,16 @@ export default {
         });
     },
     parkingLotsSelected(){
+        this.showPopup = true;
+        // this.pushParkingData()
+    },
+    pushParkingData(cameraPosition){
+
         this.uid = localStorage.getItem('uid')
-        firebaseApp.db.doc("users/"+this.uid).update({
-            parkingLots:this.parkingLotCoordinates
-        })
         this.parkingLotCoordinates.forEach(x=>{
             console.log(x)
             x.numberOfSpots = parseInt(x.numberOfSpots)
+            x.cameraPosition = cameraPosition
             x.spots= []
             for(let i=0;i<x.numberOfSpots;i++){
                 x.spots.push("")

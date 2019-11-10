@@ -4,7 +4,7 @@
     
     {{spot}}
 
-    
+
   </div>
   
 </template>
@@ -17,13 +17,13 @@ export default {
   name: 'home',
   data(){
     return {
-      
+      spot:0
     }
   },
   methods: {
     
   },
-  mounted(){
+  beforeMount(){
     this.spot = this.$route.params.spot
   }
   
