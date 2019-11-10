@@ -92,6 +92,7 @@ export default {
         this.parkingLotCoordinates.forEach(x=>{
             console.log(x)
             x.numberOfSpots = parseInt(x.numberOfSpots)
+            x.spotsFilled = 0
             x.cameraPosition = cameraPosition
             x.spots= []
             for(let i=0;i<x.numberOfSpots;i++){
