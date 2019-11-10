@@ -1,12 +1,11 @@
 <template >
   <div class="home background">
     <div id="map"></div>
-        <div class="play-button-container">
-<div class="play-button">
-   <div class="button" @click="initParking">Park Now</div>
-   {{apiData}}
-</div>
-</div>
+    <div class="play-button-container">
+      <div class="play-button">
+        <div class="button" @click="initParking">Park Now</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +27,7 @@ export default {
   },
   methods: {
     initParking(){
+      document.getElementById('map').style.height = 100+"vh"
       let abc = this
       // console.log(this.parkingLotDistances)
       let parkingLots = this.parkingLotDistances.rows[0].elements
@@ -45,8 +45,8 @@ export default {
       firebaseApp.db.doc("parkingLots/"+this.parkingDestination.id).onSnapshot(snapshot=>{
         let data = snapshot.data()
         for(let i=0;i<data.spots.length;i++){
-          if(data.spots[i].plateNumber == plateNumber){
-            this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
+          if(plateNumber!="" && data.spots[i].plateNumber == plateNumber){
+            // this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
           }
         }
       })
@@ -175,6 +175,8 @@ export default {
 }
 }
 .play-button-container {
+      margin-top: 100px;
+
     width: 250px;
     height: 250px;
     border-radius: 50%;
@@ -212,12 +214,20 @@ export default {
 .background{
   background-image: url("../assets/parknow.png");
   background-position: right;
+  height: 100vh;
+    display: flex;
+    align-items: center;
 }
 .button{
     font-size: 40px;
    font-family: 'Open Sans', sans-serif;
 }
 #map {
-        height: 500px;
+  width: 100vw;
+        height:0px;
+        position: absolute;
+        z-index: 1000000000000000;
+        top: 0;
+        left: 0;
       }
 </style>

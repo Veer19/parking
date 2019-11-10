@@ -1,14 +1,25 @@
 <template class='background'>
 <div class="columns">
-<div class="modal popup" v-if="showPopup"> 
-  <div class="modal-content"> 
-    <span class="close-button ">&times;</span> 
-    <h1>Where do we keep an eye?</h1> 
-    <div class="option-button fancy-button" @click="pushParkingData('entryexit')"><span><i class="fa fa-envelope"></i>Entry and Exit</span></div>
-     <div class="option-button fancy-button" @click="pushParkingData('overview')"><span><i class="fa fa-envelope"></i>Over the Parking Lot</span>
-     </div> 
-     </div> 
-     </div>
+  <div class="modal popup1" v-if="showPopup1"> 
+    <div class="modal-content"> 
+      <h1>Where do we keep an eye?</h1> 
+      <div class="fancy-button bg-gradient2" @click="pushCameraData('entryexit')"><span><i class="fa fa-envelope"></i>Entry and Exit</span></div>
+      <div class="fancy-button bg-gradient2" @click="pushCameraData('overview')"><span><i class="fa fa-envelope"></i>Over the Parking Lot</span></div> 
+    </div> 
+  </div>
+  <div class="modal popup1" v-if="showPopup2"> 
+    <div class="modal-content"> 
+      <h1>How high will the camera be?</h1> 
+      <div class="fancy-button bg-gradient2" @click="pushHeightData('high')"><span><i class="fa fa-envelope"></i>High</span></div>
+      <div class="fancy-button bg-gradient2" @click="pushHeightData('low')"><span><i class="fa fa-envelope"></i>Low</span></div> 
+    </div> 
+  </div>
+  <div class="modal popup1" v-if="showPopup3"> 
+    <div class="modal-content"> 
+      <h1>You're all set up!</h1> 
+    </div> 
+  </div>
+
   <div class="column">
       
       <div v-if="category==''">
@@ -19,23 +30,26 @@
     <div class="adminSetup" v-if="category=='admin'">
         <div class="question">Where are the parking lots located?</div>
         <div id="map"></div>
+        <br>
+        <br>   
         <div v-for="(parkingLot,index) in parkingLotCoordinates" v-bind:key="parkingLot">
-            <label for="inp" class="inp">
-           <input type="text" v-model="parkingLotCoordinates[index]['numberOfSpots']" id="inp" placeholder="&nbsp;">
-           <span class="label">{{index+1}}</span>
-           <span class="border"></span>
-          </label>
+           
+           <input type="text" class="inp" v-model="parkingLotCoordinates[index]['numberOfSpots']" id="inp" :placeholder="'Parking Lot '+ (index+1)">
+           
+           
+          
         </div>
         <div class="sumbitButton fancy-button bg-gradient2" @click="parkingLotsSelected"><span><i class="fa fa-envelope"></i>I am all done!</span></div>
     </div>
     <div class="userSetup" v-if="category=='user'">
-        <div class="question">Can we know your lisence plate number?</div>
-         <label for="inp" class="inp">
-           <input type="text plateNumber" id="inp" placeholder="&nbsp;">
-           <span class="label">Lisence Plate Number</span>
-           <span class="border"></span>
-          </label>
-        <div class="sumbitButton fancy-button bg-gradient2" @click="submitPlateNumber"><span><i class="fa fa-envelope"></i>Submit</span></div>
+      <div class=""> 
+        <div class="modal-content"> 
+          <h1>Can we have your car's plate number?</h1>
+           <input type="text plateNumber" class="inp" id="inp" placeholder="Enter Plate Number">
+            <div class="sumbitButton fancy-button bg-gradient2" @click="submitPlateNumber"><span><i class="fa fa-envelope"></i>Submit</span></div>
+        </div> 
+      </div>
+        
     </div>
   </div>
   
@@ -58,7 +72,11 @@ export default {
         plateNumber:"",
         parkingLotCoordinates: [],
         uid:'',
-        showPopup:false
+        showPopup1:false,
+        showPopup2:false,
+        showPopup3:false,
+        cameraPosition:"",
+        cameraHeight:""
       }
   },
   methods:{
@@ -96,8 +114,18 @@ export default {
         });
     },
     parkingLotsSelected(){
-        this.showPopup = true;
-        // this.pushParkingData()
+        this.showPopup1 = true;
+        
+    },
+    pushCameraData(cameraPosition){
+      this.cameraPosition = cameraPosition
+      this.showPopup2 = true;
+      this.showPopup1 = false;
+    },
+    pushHeightData(cameraHeight){
+      this.cameraHeight = cameraHeight
+      this.showPopup2 = false;
+      this.showPopup3 = true
     },
     pushParkingData(cameraPosition){
 
@@ -105,7 +133,8 @@ export default {
         this.parkingLotCoordinates.forEach(x=>{
             console.log(x)
             x.numberOfSpots = parseInt(x.numberOfSpots)
-            x.cameraPosition = cameraPosition
+            x.cameraPosition = this.cameraPosition
+            x.cameraHeight = this.cameraHeight
             x.spots= []
             for(let i=0;i<x.numberOfSpots;i++){
                 x.spots.push("")
@@ -139,17 +168,18 @@ export default {
 
 </script>
 <style scoped>
+.popup1{
+  position: absolute;
+  z-index: 100000;
+  height: 400px;
+  border-radius: 15px;
+  background: white;
+  box-shadow: 0 24px 72px 0 rgba(0,0,0,.5);
+}
     .modal {
-        position: fixed;
-        left: 0;
-        top: 0;
         width: 100%;
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5);
-        opacity: 0;
-        visibility: hidden;
-        transform: scale(1.1);
-        transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
     }
     .modal-content {
         position: absolute;
@@ -374,47 +404,29 @@ a:hover, a:focus, a:active {
 * {
   box-sizing: border-box;
 }
+
+
 .inp {
-  position: relative;
-  margin: auto;
-  width: 100%;
-  max-width: 280px;
-}
-.inp .label {
-  position: absolute;
-  top: 16px;
-  left: 0;
-  font-size: 16px;
-  color: #9098a9;
-  font-weight: 500;
-  transform-origin: 0 0;
-  transition: all 0.2s ease;
-}
-.inp .border {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 2px;
-  width: 100%;
-  background: #07f;
-  transform: scaleX(0);
-  transform-origin: 0 0;
-  transition: all 0.15s ease;
-}
-.inp input {
   -webkit-appearance: none;
-  width: 100%;
-  border: 0;
-  font-family: inherit;
-  padding: 12px 0;
-  height: 48px;
-  font-size: 16px;
-  font-weight: 500;
-  border-bottom: 2px solid #c8ccd4;
-  background: none;
-  border-radius: 0;
-  color: #223254;
-  transition: all 0.15s ease;
+    width: 100%;
+    border: 0;
+    /* border: 1px black solid; */
+    border-radius: 50px;
+    margin: 10px 0;
+    padding: 10px 50px;
+    font-family: inherit;
+    /* padding: 12px 0; */
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    /* border-bottom: 2px solid #c8ccd4; */
+    background: none;
+    /* border-radius: 0; */
+    color: #223254;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkit-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    /* box-shadow: 0.8px 3px 5px black; */
 }
 .inp input:hover {
   background: rgba(34,50,84,0.03);

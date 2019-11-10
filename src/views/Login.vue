@@ -1,6 +1,7 @@
 <template class=''>
 <div class="columns background">
   <div class="column">
+    <h1 class="tagline">Wanna Park?</h1>
     <div class="play-button-container">
 <div class="play-button">
    <div class="button" @click="login" text="Login">Login</div>
@@ -37,12 +38,8 @@ export default {
             this.$router.push('setup')
           }
           else {
-              if (doc.data().type == "admin"){
-                  this.$router.push('admin')
-              }
-              else {
+              
                   this.$router.push('home')
-              }
           }
         })
         
@@ -61,6 +58,13 @@ export default {
 
 </script>
 <style scoped>
+.tagline {
+  font-size: 330%;
+    color: white;
+    font-family: 'Open sans';
+    font-weight: 500;
+    margin-top: 150px;
+}
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 .columns {
   height: 100vh;
@@ -69,7 +73,6 @@ export default {
   justify-content: center;
   margin: 0;
   background-size: cover;
-  align-items: center;
   background-position: center;
   display: flex;
 }
