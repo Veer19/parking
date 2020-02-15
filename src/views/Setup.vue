@@ -1,22 +1,8 @@
 <template class='background'>
 <div class="columns">
-  <div class="modal popup1" v-if="showPopup1"> 
-    <div class="modal-content"> 
-      <h1>Where do we keep an eye?</h1> 
-      <div class="fancy-button bg-gradient2" @click="pushCameraData('entryexit')"><span><i class="fa fa-envelope"></i>Entry and Exit</span></div>
-      <div class="fancy-button bg-gradient2" @click="pushCameraData('overview')"><span><i class="fa fa-envelope"></i>Over the Parking Lot</span></div> 
-    </div> 
-  </div>
-  <div class="modal popup1" v-if="showPopup2"> 
-    <div class="modal-content"> 
-      <h1>How high will the camera be?</h1> 
-      <div class="fancy-button bg-gradient2" @click="pushHeightData('high')"><span><i class="fa fa-envelope"></i>High</span></div>
-      <div class="fancy-button bg-gradient2" @click="pushHeightData('low')"><span><i class="fa fa-envelope"></i>Low</span></div> 
-    </div> 
-  </div>
   <div class="modal popup1" v-if="showPopup3"> 
     <div class="modal-content"> 
-      <h1>You're all set up!</h1> 
+      <h1>We will come inspect the areas ASAP!</h1> 
     </div> 
   </div>
 
@@ -34,22 +20,12 @@
         <br>   
         <div v-for="(parkingLot,index) in parkingLotCoordinates" v-bind:key="parkingLot">
            
-           <input type="text" class="inp" v-model="parkingLotCoordinates[index]['numberOfSpots']" id="inp" :placeholder="'Parking Lot '+ (index+1)">
+           <input type="text" class="inp" v-model="parkingLotCoordinates[index]['name']" id="inp" placeholder='Parking Lot Name'>
            
            
           
         </div>
-        <div class="sumbitButton fancy-button bg-gradient2" @click="parkingLotsSelected"><span><i class="fa fa-envelope"></i>I am all done!</span></div>
-    </div>
-    <div class="userSetup" v-if="category=='user'">
-      <div class=""> 
-        <div class="modal-content"> 
-          <h1>Can we have your car's plate number?</h1>
-           <input type="text plateNumber" class="inp" id="inp" placeholder="Enter Plate Number">
-            <div class="sumbitButton fancy-button bg-gradient2" @click="submitPlateNumber"><span><i class="fa fa-envelope"></i>Submit</span></div>
-        </div> 
-      </div>
-        
+        <div class="sumbitButton fancy-button bg-gradient2" @click="pushParkingData"><span><i class="fa fa-envelope"></i>I am all done!</span></div>
     </div>
   </div>
   
@@ -64,7 +40,7 @@ export default {
   data(){
       return {
         uid:"",
-        category:"",
+        category:"admin",
         center: { lat: 45.508, lng: -73.587 },
         markers: [],
         places: [],
@@ -80,13 +56,28 @@ export default {
       }
   },
   methods:{
-    adminSetup(){
+    pushParkingData(){
+        
         this.uid = localStorage.getItem('uid')
-        firebaseApp.db.doc("users/"+this.uid).update({
-            type:"admin"
+        this.parkingLotCoordinates.forEach(x=>{
+            console.log(x)
+            x.numberOfSpots = 5
+            x.spotsFilled = 0
+            x.carsInside = []
+            firebaseApp.db.collection("parkingLots").add(x)
+            .then(snapshot=>{
+                console.log(snapshot.id)
+                firebaseApp.db.doc("parkingLots/"+snapshot.id).update({
+                    id:snapshot.id
+                })
+                this.showPopup3 = true;
+            })
         })
-        this.category = "admin";
-        let self = this;
+        let apikey = "AIzaSyB_vaGVTbrkNy4gcXoCRZ0FmbeWaGZE8ZA"
+    }
+  },
+  mounted(){
+    let self = this;
         mapboxgl.accessToken = 'pk.eyJ1IjoidmVlcjE5IiwiYSI6ImNrMnJqcjZhdTBxbHAzaXBoZHlhZjFwNnYifQ.1w8oqCFBa72f1vy3-v6z2w';
         this.$getLocation({
             enableHighAccuracy: true, //defaults to false
@@ -112,58 +103,6 @@ export default {
                 c = c + 1
             });
         });
-    },
-    parkingLotsSelected(){
-        this.showPopup1 = true;
-        
-    },
-    pushCameraData(cameraPosition){
-      this.cameraPosition = cameraPosition
-      this.showPopup2 = true;
-      this.showPopup1 = false;
-    },
-    pushHeightData(cameraHeight){
-      this.cameraHeight = cameraHeight
-      this.showPopup2 = false;
-      this.showPopup3 = true
-    },
-    pushParkingData(cameraPosition){
-
-        this.uid = localStorage.getItem('uid')
-        this.parkingLotCoordinates.forEach(x=>{
-            console.log(x)
-            x.numberOfSpots = parseInt(x.numberOfSpots)
-            x.spotsFilled = 0
-            x.cameraPosition = this.cameraPosition
-            x.cameraHeight = this.cameraHeight
-            x.spots= []
-            for(let i=0;i<x.numberOfSpots;i++){
-                x.spots.push("")
-            }
-            firebaseApp.db.collection("parkingLots").add(x)
-            .then(snapshot=>{
-                console.log(snapshot.id)
-                firebaseApp.db.doc("parkingLots/"+snapshot.id).update({
-                    id:snapshot.id
-                })
-            })
-        })
-        let apikey = "AIzaSyB_vaGVTbrkNy4gcXoCRZ0FmbeWaGZE8ZA"
-    },
-    userSetup(){
-        this.category = "user"
-    },
-    submitPlateNumber(){
-        this.uid = localStorage.getItem('uid')
-        firebaseApp.db.doc("users/"+this.uid).update({
-            plateNumber:this.plateNumber
-        }).then(x=>{
-            localStorage.setItem('plateNumber',this.plateNumber)
-            this.$router.push('home')
-        })
-    }
-  },
-  mounted(){
   }
 }
 

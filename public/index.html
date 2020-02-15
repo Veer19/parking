@@ -9,6 +9,47 @@
     <link href='https://api.mapbox.com/mapbox-gl-js/v1.4.1/mapbox-gl.css' rel='stylesheet' />
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_vaGVTbrkNy4gcXoCRZ0FmbeWaGZE8ZA"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+     .inp{ -webkit-appearance: none;
+    
+    border: 0;
+    /* border: 1px black solid; */
+    border-radius: 50px;
+    margin: 10px 0;
+    padding: 10px 50px;
+    font-family: inherit;
+    /* padding: 12px 0; */
+    height: 48px;
+    font-size: 16px;
+    font-weight: 500;
+    /* border-bottom: 2px solid #c8ccd4; */
+    background: none;
+    /* border-radius: 0; */
+    color: #223254;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    -webkit-transition: all 0.15s ease;
+    transition: all 0.15s ease;
+    /* box-shadow: 0.8px 3px 5px black; */
+}
+.inp input:hover {
+  background: rgba(34,50,84,0.03);
+}
+.inp input:not(:placeholder-shown) + span {
+  color: #5a667f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus {
+  background: none;
+  outline: none;
+}
+.inp input:focus + span {
+  color: #07f;
+  transform: translateY(-26px) scale(0.75);
+}
+.inp input:focus + span + .border {
+  transform: scaleX(1);
+}
+    </style>
     <title>parking</title>
     <style>
       @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');

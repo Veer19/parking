@@ -2,18 +2,32 @@
 <div class="columns background">
   <div class="column">
     <h1 class="tagline">Wanna Park?</h1>
-    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <div>
       <div class="modal popup1"> 
-        <div class="modal-content"> 
-          <h1>Can I know your phone number?</h1> 
-          <div class="fancy-button bg-gradient2" @click="pushHeightData('low')"><span>Submit</span></div> 
+        <div class="modal-content" v-if="askPhone"> 
+          <h1>Can I know your phone number?</h1>
+          <input type="text" class="inp" v-model="phone" placeholder="Enter your Number">
+          <div class="fancy-button bg-gradient2" @click="submitPhone()"><span>Submit</span></div> 
         </div> 
       </div>
-<!-- <div class="play-button">
-   <div class="button" @click="login" text="Login">Login</div>
-</div> -->
-</div>
+      <div class="modal popup1"> 
+        <div class="modal-content" v-if="askPlate">
+          <h1>I'll have to identify your vehicle</h1>
+          <input type="text" class="inp" v-model="plateNumber" placeholder="Enter your Car Plate Number">
+          <div class="fancy-button bg-gradient2" @click="createUserAccount()"><span>Submit</span></div>
+        </div> 
+      </div>
+      <div class="modal popup1" v-if="askQuestion"> 
+        <div class="modal-content"> 
+          <div>
+            <div class="question" style="font-size: 40px;">Who are you?</div>
+            <div class="sumbitButton fancy-button bg-gradient2" @click="submitAnswer('admin')"><span><i class="fa fa-envelope"></i>I own a parking lot</span></div>
+            <div class="sumbitButton fancy-button bg-gradient2" @click="submitAnswer('user')"><span><i class="fa fa-envelope"></i>I park my car a lot</span></div>
+          </div>
+        </div> 
+      </div>
+    </div>
   </div>
   
 </div>
@@ -24,35 +38,62 @@ import firebase from 'firebase'
 import firebaseApp from '../firebaseConfig'
 export default {
   name: 'login',
+  data(){
+    return {
+      phone:'',
+      plateNumber:'',
+      askPhone:true,
+      askQuestion:false,
+      askPlate:false,
+      type:""
+    }
+  },
   methods:{
-    login(){
-      
-      var provider = new firebase.auth.GoogleAuthProvider();
-      firebaseApp.auth.signInWithPopup(provider)
-      .then(snapshot=>{
-        let user = snapshot.user
-        localStorage.setItem('uid',user.uid)
-        localStorage.setItem('name',user.displayName)
-        
-        return firebaseApp.db.doc("users/"+user.uid).get()
+    submitAnswer(type){
+      if(type == "user")
+        this.type = type
+      else {
+        //Creating Admin Account
+        localStorage.setItem('phone',this.phone)
+        firebaseApp.db.doc("users/"+this.phone).get()
         .then(doc => {
           if(!doc.exists){
-            firebaseApp.db.doc("users/"+ user.uid).set({
-              name : user.displayName,
-              phone: user.phoneNumber,
-              uid:user.uid
+            firebaseApp.db.doc("users/"+this.phone).set({
+              "phone":this.phone,
+              "type":"admin",
             })
-            this.$router.push('setup')
           }
-          else {
-              
-                  this.$router.push('home')
-          }
+          this.$router.push('setup')
         })
-        
-      })
-      .then(()=>{
+      }
+      
+      this.askPhone = false
+      this.askPlate = true
+      this.askQuestion = false
+
+    },
+    submitPhone(){
+      this.askPhone = false
+      this.askPlate = false
+      this.askQuestion = true
+    },
+    createUserAccount(){
+      localStorage.setItem('phone',this.phone)
+      firebaseApp.db.doc("users/"+this.phone).get()
+      .then(doc => {
+        if(!doc.exists){
+          firebaseApp.db.doc("users/"+this.phone).set({
+            "phone":this.phone,
+            "isParkedAt":"",
+            "plate":this.plateNumber,
+            "type":this.type
+          })
+          firebaseApp.db.doc("matchplates/"+this.plateNumber).set({
+            "phone":this.phone
+          })
           
+        }
+        this.$router.push('home')
       })
     }
   },

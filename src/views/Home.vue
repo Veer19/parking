@@ -6,7 +6,7 @@
         <div class="button" style="color:black !important;" @click="initParking">Park Now</div>
       </div>
     </div>
-    <div class=" bottom" @click="parked" v-if="showParkedButton"><span><i class="fa fa-envelope"></i>I'm There</span></div>
+    <!-- <div class=" bottom" @click="parked" v-if="showParkedButton"><span><i class="fa fa-envelope"></i>I'm There</span></div> -->
   </div>
 </template>
 
@@ -25,39 +25,28 @@ export default {
       parkingLotDistances:{},
       destinations:[],
       destinationCoordinates:[],
-      showParkedButton:false
+      showParkedButton:false,
+      parkingMarkers:[]
     }
   },
   methods: {
     parked(){
       this.$router.push({name:'parkingEnter', params: {spot: i+1 }})
     },
-    initParking(){
-      document.getElementById('map').style.height = 80+"vh"
-      this.showParkedButton = true
+    initParking(selectedParking){
+      // document.getElementById('map').style.height = 80+"vh"
+      // this.showParkedButton = true
       let abc = this
-      // console.log(this.parkingLotDistances)
-      let parkingLots = this.parkingLotDistances.rows[0].elements
-      let minDistance = 1000000000000000000000000;
-      let minIndex = 0;
-      for(let i=0;i<parkingLots.length;i++){
-        if(minDistance>parkingLots[i].distance.value){
-          minDistance = parkingLots[i].distance.value
-          minIndex = i
-        }
-      }
-      this.parkingDestination = this.destinationCoordinates[minIndex]
-      let plateNumber = localStorage.getItem("plateNumber")
-      console.log(this.parkingDestination.id)
-      firebaseApp.db.doc("parkingLots/"+this.parkingDestination.id).onSnapshot(snapshot=>{
-        let data = snapshot.data()
-        for(let i=0;i<data.spots.length;i++){
-          if(plateNumber!="" && data.spots[i].plateNumber == plateNumber){
-            
-          }
-        }
-      })
-      console.log(this.parkingDestination)
+      // let plateNumber = localStorage.getItem("plateNumber")
+      // firebaseApp.db.doc("parkingLots/"+this.parkingDestination.id).onSnapshot(snapshot=>{
+      //   let data = snapshot.data()
+      //   for(let i=0;i<data.spots.length;i++){
+      //     if(plateNumber!="" && data.spots[i].plateNumber == plateNumber){
+      //       //CHECK IF PARKING LOT IS EMPTY
+      //     }
+      //   }
+      // })
+      // console.log(this.parkingDestination)
       if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(function(position) {
             let coordinates = {
@@ -73,11 +62,13 @@ export default {
             }
             var map = new google.maps.Map(document.getElementById('map'), mapOptions);
             directionsRenderer.setMap(map);
+            console.log("From ")
             console.log(coordinates)
-            console.log(abc.parkingDestination)
+            console.log("To ")
+            console.log(selectedParking)
             directionsService.route({
               origin: {lat: coordinates.lat, lng: coordinates.lng},  // Haight.
-              destination: {lat:abc.parkingDestination.lat, lng:abc.parkingDestination.lng},  // Ocean Beach.
+              destination: {lat:selectedParking.lat, lng:selectedParking.lng},  // Ocean Beach.
               // Note that Javascript allows us to access the constant
               // using square brackets and a string value as its
               // "property."
@@ -99,20 +90,21 @@ export default {
         }
 
     },
-    getData(){
-      
-      // const Http = new XMLHttpRequest();
-      // const url='https://sjce-hack.herokuapp.com/dwkahdkjawhdkjawnd';
-      // Http.open("GET", url);
-      // Http.send();
-      // Http.onreadystatechange = () => {
-      //   this.apiData = Http.responseText
-      // }
+    lookForChangeInUserObject(){
+      let phone = localStorage.getItem('phone')
+      firebaseApp.db.doc("users/"+phone).onSnapshot(snapshot=>{
+        let userData = snapshot.data()
+        console.log(userData)
+        if(userData.isParkedAt != ""){
+          this.$router.push('parkingEnter/'+userData.isParkedAt)
+        }
+      })
     }
   },
   mounted(){
+    this.lookForChangeInUserObject();
     let abc = this
-    
+    document.getElementById('map').style.height = 100+"vh"
     let docData = {}
     this.$getLocation({
             enableHighAccuracy: true, //defaults to false
@@ -120,34 +112,50 @@ export default {
             maximumAge: 0 //defaults to 0
     })
     .then(coordinates => {
+      let yourLocation = {lat:coordinates.lat, lng:coordinates.lng }
       let origin = new google.maps.LatLng(coordinates.lat, coordinates.lng);
+
+      var iconBase = 'https://maps.google.com/mapfiles/kml/shapes/';
+      var map = new google.maps.Map(document.getElementById('map'), {zoom: 14, center:yourLocation });
+      let userPositionMarker = new google.maps.Marker({position: yourLocation, map: map,icon:iconBase+'man.png'});
+      
       abc.destinations = [] 
+      abc.parkingMarkers = []
       firebaseApp.db.collection("parkingLots").onSnapshot(snapshot=>{
-        abc.destinationCoordinates = []
+        abc.parkingLots = []
         snapshot.forEach(doc=>{
           docData = doc.data()
+          abc.parkingLots.push(doc.data())
           console.log(docData)
-          abc.destinationCoordinates.push({
-            lat:docData.lat, 
-            lng:docData.lng,
-            id:docData.id
-          })
-          abc.destinations.push(new google.maps.LatLng(docData.lat, docData.lng))
+          abc.parkingMarkers.push(new google.maps.Marker({position: {lat:docData.lat,lng:docData.lng}, map: map,icon:iconBase+'parking_lot.png'}))
+
+          
+          //abc.destinations.push(new google.maps.LatLng(docData.lat, docData.lng))
         })
         let service = new google.maps.DistanceMatrixService();
-        console.log(abc.destinations)
-        service.getDistanceMatrix({
-              origins: [origin],
-              destinations: abc.destinations,
-              travelMode: 'DRIVING',
-          }, (response,status)=>{
-            console.log(status)
-              console.log(response)
-              abc.parkingLotDistances = response
+        abc.parkingMarkers.forEach(marker => {
+          google.maps.event.addListener(marker, 'click', function() {
+            console.log(marker)
+            abc.initParking({"lat":marker.getPosition().lat(),"lng":marker.getPosition().lng()})
           });
+        })
+
+        
+        
+
+        // var marker = new google.maps.Marker({
+        //         position: event.latLng,
+        //         label : ""+c,
+        //         map: map,
+        //         // icon: iconBase + 'parking_lot_maps.png',
+        // });
+
+        
+          
       })
       
     })
+    
   }
   
 }

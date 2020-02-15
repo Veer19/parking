@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Setup from '../views/Setup.vue'
 import ParkingEnter from '../views/ParkingEnter.vue'
+import ParkingExit from '../views/ParkingExit.vue'
 
 Vue.use(VueRouter)
 
@@ -27,9 +28,14 @@ const routes = [
     component: Setup
   },
   {
-    path: '/parkingEnter/:spot',
+    path: '/parkingEnter/:parkingLot',
     name: 'parkingEnter',
     component: ParkingEnter
+  },
+  {
+    path: '/parkingExit/:parkingLot',
+    name: 'parkingExit',
+    component: ParkingExit
   },
   
 ]

@@ -1,25 +1,10 @@
 <template>
   <div class="home">
-    <br><br>
-    <h1>{{parkingLotData.name}}</h1>
-    <br><br>
-    <h3>Follow the Green Light</h3>
+    <br><br><br><br>
+    <h1>Payment Sucessfull</h1>
     <div class="play-button-container">
       <div class="play-button">
-        {{parkingLotData.numberOfSpots - parkingLotData.spotsFilled}} Spots Left
-      </div>
-    </div>
-    <div class=""> 
-      <br>
-      <br>
-      <br><br><br><br><br><br><br>
-      <div class="modal-content">
-          <h1 v-if="plateNumber!=''">Number Plate : {{plateNumber}}</h1>
-      </div> 
-    </div>
-    <div class="play-button-container" v-if="showSuccessIcon">
-      <div class="play-button">
-        <h1>Success</h1>
+        Rs.{{paymentAmount}}
       </div>
     </div>
   </div>
@@ -34,9 +19,6 @@ export default {
   name: 'home',
   data(){
     return {
-      spot:0,
-      plateNumber:"",
-      showSuccessIcon:false,
       parkingLotData:{}
     }
   },
@@ -48,7 +30,6 @@ export default {
       console.log(this.parkingLotData)
     })
   }
-  
 }
 </script>
 <style>
