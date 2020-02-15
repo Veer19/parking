@@ -1,9 +1,13 @@
+# crr = credentials.Certificate("cred.json")
+print("S")
 import random
 import os, io
-import firebase_admin
-from firebase_admin import credentials
-from firebase_admin import firestore
+# import firebase_admin
+# from firebase_admin import credentials
+# from firebase_admin import firestore
 from google.cloud import vision
+
+image_path = f'img1.jpg'
 def ocr():
     with io.open(image_path, 'rb') as image_file:
             content = image_file.read()
@@ -43,3 +47,13 @@ def ocr():
         
     # }})   
     print(stri)
+# default_app = firebase_admin.initialize_app(crr)
+# db = firestore.client()
+# users_ref = db.collection(u'numberplate').document(u"TOHxHAzbXruzzxLNFjHM")
+
+#document(u"TOHxHAzbXruzzxLNFjHM").
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"cred.json"
+
+client = vision.ImageAnnotatorClient()
+print("okkk")
+ocr()
