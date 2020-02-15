@@ -1,31 +1,18 @@
 var https = require('follow-redirects').https;
 var fs = require('fs');
 process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
-
-
+var number=9822003837;
 var options = {
   'method': 'GET',
   'hostname': 'partner.vodafone.in',
-  'path': '/services2/locationsandbox/2_0/location/queries/location?address=tel:+919554232133&requestedAccuracy=5000',
+  'path': '/services2/subage/1/subscriber/age/tel%3A%2B91'+number,
   'headers': {
     'Content-Type': 'application/json',
-    'X-forwarded-For': '192.168.56.1',
+    'X-Forwarded-For': '192.168.56.1',
     'Authorization': 'Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM='
   },
   'maxRedirects': 20
 };
-
-var optionsAoP = {
-    'method': 'POST',
-    'hostname': 'partner.vodafone.in',
-    'path': 'adviceofprivacy/3/rest/sms/location?address=tel:+919554232133&requestedAccuracy=5000',
-    'headers': {
-      'Content-Type': 'application/json',
-      'X-forwarded-For': '192.168.56.1',
-      'Authorization': 'Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM='
-    },
-    'maxRedirects': 20
-  };https://example.com/adviceofprivacy/3/rest/sms
 
 var req = https.request(options, function (res) {
   var chunks = [];

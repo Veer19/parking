@@ -1,0 +1,165 @@
+[debug] [2020-02-15T09:05:48.816Z] ----------------------------------------------------------------------
+[debug] [2020-02-15T09:05:48.819Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-02-15T09:05:48.819Z] CLI Version:   7.3.2
+[debug] [2020-02-15T09:05:48.819Z] Platform:      win32
+[debug] [2020-02-15T09:05:48.819Z] Node Version:  v10.16.0
+[debug] [2020-02-15T09:05:48.820Z] Time:          Sat Feb 15 2020 14:35:48 GMT+0530 (India Standard Time)
+[debug] [2020-02-15T09:05:48.820Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2020-02-15T09:05:48.829Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-15T09:05:48.829Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\sanskar agrawal\Desktop\smart parking
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  .firebaserc already has a default project, using sjce-hack.
+[debug] [2020-02-15T09:06:02.567Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2020-02-15T09:06:02.568Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ <request body omitted>
+[debug] [2020-02-15T09:06:02.950Z] <<< HTTP RESPONSE 200
+[debug] [2020-02-15T09:06:02.965Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/sjce-hack  
+ 
+[debug] [2020-02-15T09:06:03.593Z] <<< HTTP RESPONSE 403
+[debug] [2020-02-15T09:06:03.593Z] <<< HTTP RESPONSE BODY
+[debug] [2020-02-15T09:06:03.597Z] HTTP Error: 403, The caller does not have permission
+[debug] [2020-02-15T09:06:03.825Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at module.exports (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at Request.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1161:10)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at IncomingMessage.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1083:12)
+    at Object.onceWrapper (events.js:286:20)
+[error] 
+[error] Error: Failed to get Firebase project sjce-hack. Please make sure the project exists and your account has permission to access it.
+[debug] [2020-02-15T09:07:09.180Z] ----------------------------------------------------------------------
+[debug] [2020-02-15T09:07:09.183Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-02-15T09:07:09.184Z] CLI Version:   7.13.0
+[debug] [2020-02-15T09:07:09.184Z] Platform:      win32
+[debug] [2020-02-15T09:07:09.184Z] Node Version:  v10.16.0
+[debug] [2020-02-15T09:07:09.185Z] Time:          Sat Feb 15 2020 14:37:09 GMT+0530 (India Standard Time)
+[debug] [2020-02-15T09:07:09.185Z] ----------------------------------------------------------------------
+[debug] [2020-02-15T09:07:09.186Z] 
+[debug] [2020-02-15T09:07:09.195Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-15T09:07:09.196Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\sanskar agrawal\Desktop\smart parking
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  .firebaserc already has a default project, using sjce-hack.
+[debug] [2020-02-15T09:07:19.336Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/sjce-hack  
+ 
+[debug] [2020-02-15T09:07:19.906Z] <<< HTTP RESPONSE 403
+[debug] [2020-02-15T09:07:19.906Z] <<< HTTP RESPONSE BODY
+[debug] [2020-02-15T09:07:19.908Z] HTTP Error: 403, The caller does not have permission
+[debug] [2020-02-15T09:07:20.149Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at module.exports (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at Request.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1154:10)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at IncomingMessage.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1076:12)
+    at Object.onceWrapper (events.js:286:20)
+    at IncomingMessage.emit (events.js:203:15)
+    at IncomingMessage.EventEmitter.emit (domain.js:448:20)
+    at endReadableNT (_stream_readable.js:1129:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+[error] 
+[error] Error: Failed to get Firebase project sjce-hack. Please make sure the project exists and your account has permission to access it.
+[debug] [2020-02-15T09:08:08.509Z] ----------------------------------------------------------------------
+[debug] [2020-02-15T09:08:08.511Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2020-02-15T09:08:08.511Z] CLI Version:   7.13.0
+[debug] [2020-02-15T09:08:08.512Z] Platform:      win32
+[debug] [2020-02-15T09:08:08.512Z] Node Version:  v10.16.0
+[debug] [2020-02-15T09:08:08.513Z] Time:          Sat Feb 15 2020 14:38:08 GMT+0530 (India Standard Time)
+[debug] [2020-02-15T09:08:08.513Z] ----------------------------------------------------------------------
+[debug] [2020-02-15T09:08:08.513Z] 
+[debug] [2020-02-15T09:08:08.520Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2020-02-15T09:08:08.524Z] > authorizing via signed-in user
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\sanskar agrawal\Desktop\smart parking
+
+Before we get started, keep in mind:
+
+  * You are initializing in an existing Firebase project directory
+
+[info] 
+=== Project Setup
+[info] 
+[info] First, let's associate this project directory with a Firebase project.
+[info] You can create multiple project aliases by running firebase use --add, 
+[info] but for now we'll just set up a default project.
+[info] 
+[info] i  .firebaserc already has a default project, using sjce-hack.
+[debug] [2020-02-15T09:08:20.675Z] >>> HTTP REQUEST GET https://firebase.googleapis.com/v1beta1/projects/sjce-hack  
+ 
+[debug] [2020-02-15T09:08:21.219Z] <<< HTTP RESPONSE 403
+[debug] [2020-02-15T09:08:21.220Z] <<< HTTP RESPONSE BODY
+[debug] [2020-02-15T09:08:21.224Z] HTTP Error: 403, The caller does not have permission
+[debug] [2020-02-15T09:08:21.441Z] FirebaseError: HTTP Error: 403, The caller does not have permission
+    at module.exports (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\responseToError.js:38:12)
+    at Request._callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\lib\api.js:39:35)
+    at Request.self.callback (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:185:22)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at Request.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1154:10)
+    at Request.emit (events.js:198:13)
+    at Request.EventEmitter.emit (domain.js:448:20)
+    at IncomingMessage.<anonymous> (C:\Users\sanskar agrawal\AppData\Roaming\npm\node_modules\firebase-tools\node_modules\request\request.js:1076:12)
+    at Object.onceWrapper (events.js:286:20)
+    at IncomingMessage.emit (events.js:203:15)
+    at IncomingMessage.EventEmitter.emit (domain.js:448:20)
+    at endReadableNT (_stream_readable.js:1129:12)
+    at process._tickCallback (internal/process/next_tick.js:63:19)
+[error] 
+[error] Error: Failed to get Firebase project sjce-hack. Please make sure the project exists and your account has permission to access it.

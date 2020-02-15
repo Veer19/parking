@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+
+    // Check if the XMLHttpRequest object has a "withCredentials" property.
+    // "withCredentials" only exists on XMLHTTPRequest2 objects.
+    xhr.open(method, url, true);
+
+  } else if (typeof XDomainRequest != "undefined") {
+
+    // Otherwise, check if XDomainRequest.
+    // XDomainRequest only exists in IE, and is IE's way of making CORS requests.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+
+  } else {
+
+    // Otherwise, CORS is not supported by the browser.
+    xhr = null;
+
+  }
+  return xhr;
+}
+
+var xhr = createCORSRequest('POST', 'https://partner.vodafone.in/services2/adviceofprivacy/3/rest/sms?address=tel%3A%2B919822003837&callbackUrl=http%3A%2F%2Fpartner.vodafone.in%3A9999%2FrestServer&operation=requestConsent');
+if (!xhr) {
+  throw new Error('CORS not supported');
+}
+    var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+myHeaders.append("X-Forwarded-For", "192.168.56.1");
+myHeaders.append("Authorization", "Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM=");
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  redirect: 'follow'
+};
+
+fetch("https://partner.vodafone.in/services2/adviceofprivacy/3/rest/sms?address=tel%3A%2B919822003837&callbackUrl=http%3A%2F%2Fpartner.vodafone.in%3A9999%2FrestServer&operation=requestConsent", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+</script>
+</html>
