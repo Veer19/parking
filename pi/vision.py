@@ -23,30 +23,11 @@ def ocr():
 
     # annotate Image Response
     response = client.text_detection(image=image)  # returns TextAnnotation
-    df = pd.DataFrame(columns=['locale', 'description'])
 
     texts = response.text_annotations
     for text in texts:
-        df = df.append(
-            dict(
-                locale=text.locale,
-                description=text.description
-            ),
-            ignore_index=True
-        )
+        print (text)
 
-    ll=list(df['description'][0])
-    stri = " "
-    i=0
-    while i<8:
-        stri = stri+ll[i]
-        i=i+1
-    # users_ref.set({
-    #     u"TOHxHAzbXruzzxLNFjHM": {
-    #         'plate': stri,'time':firestore.SERVER_TIMESTAMP
-        
-    # }})   
-    print(stri)
 # default_app = firebase_admin.initialize_app(crr)
 # db = firestore.client()
 # users_ref = db.collection(u'numberplate').document(u"TOHxHAzbXruzzxLNFjHM")
