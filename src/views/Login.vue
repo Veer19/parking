@@ -2,10 +2,17 @@
 <div class="columns background">
   <div class="column">
     <h1 class="tagline">Wanna Park?</h1>
-    <div class="play-button-container">
-<div class="play-button">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div>
+      <div class="modal popup1"> 
+        <div class="modal-content"> 
+          <h1>Can I know your phone number?</h1> 
+          <div class="fancy-button bg-gradient2" @click="pushHeightData('low')"><span>Submit</span></div> 
+        </div> 
+      </div>
+<!-- <div class="play-button">
    <div class="button" @click="login" text="Login">Login</div>
-</div>
+</div> -->
 </div>
   </div>
   
