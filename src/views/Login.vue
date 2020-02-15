@@ -55,10 +55,10 @@ export default {
       else {
         //Creating Admin Account
         localStorage.setItem('phone',this.phone)
-        firebaseApp.db.doc("users/"+this.phone).get()
+        firebaseApp.db.doc("tempUsers/"+this.phone).get()
         .then(doc => {
           if(!doc.exists){
-            firebaseApp.db.doc("users/"+this.phone).set({
+            firebaseApp.db.doc("tempUsers/"+this.phone).set({
               "phone":this.phone,
               "type":"admin",
             })
@@ -79,10 +79,10 @@ export default {
     },
     createUserAccount(){
       localStorage.setItem('phone',this.phone)
-      firebaseApp.db.doc("users/"+this.phone).get()
+      firebaseApp.db.doc("tempUsers/"+this.phone).get()
       .then(doc => {
         if(!doc.exists){
-          firebaseApp.db.doc("users/"+this.phone).set({
+          firebaseApp.db.doc("tempUsers/"+this.phone).set({
             "phone":this.phone,
             "isParkedAt":"",
             "plate":this.plateNumber,
@@ -93,14 +93,12 @@ export default {
           })
           
         }
-        this.$router.push('home')
+        this.$router.push('otp')
       })
     }
   },
   beforeMount(){
-    if(localStorage.getItem('uid') != null){
-        this.$router.push('home')
-      }
+   
   }
 }
 

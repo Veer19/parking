@@ -127,7 +127,10 @@ export default {
           docData = doc.data()
           abc.parkingLots.push(doc.data())
           console.log(docData)
-          abc.parkingMarkers.push(new google.maps.Marker({position: {lat:docData.lat,lng:docData.lng}, map: map,icon:iconBase+'parking_lot.png'}))
+          let emptySpots = docData.numberOfSpots-docData.spotsFilled
+          emptySpots = emptySpots + ""
+          console.log(emptySpots)
+          abc.parkingMarkers.push(new google.maps.Marker({label:emptySpots,position: {lat:docData.lat,lng:docData.lng}, map: map}))
 
           
           //abc.destinations.push(new google.maps.LatLng(docData.lat, docData.lng))

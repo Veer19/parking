@@ -1,5 +1,4 @@
 # crr = credentials.Certificate("cred.json")
-print("S")
 import random
 import os, io
 # import firebase_admin
@@ -7,7 +6,7 @@ import os, io
 # from firebase_admin import firestore
 from google.cloud import vision
 
-image_path = f'img1.jpg'
+image_path = f'capture.jpg'
 def ocr():
     with io.open(image_path, 'rb') as image_file:
             content = image_file.read()
@@ -23,30 +22,13 @@ def ocr():
 
     # annotate Image Response
     response = client.text_detection(image=image)  # returns TextAnnotation
-    df = pd.DataFrame(columns=['locale', 'description'])
+    # df = pd.DataFrame(columns=['locale', 'description'])
 
     texts = response.text_annotations
-    for text in texts:
-        df = df.append(
-            dict(
-                locale=text.locale,
-                description=text.description
-            ),
-            ignore_index=True
-        )
+    # for text in texts:
+    text = texts[0].description[:13]
+    print(text)
 
-    ll=list(df['description'][0])
-    stri = " "
-    i=0
-    while i<8:
-        stri = stri+ll[i]
-        i=i+1
-    # users_ref.set({
-    #     u"TOHxHAzbXruzzxLNFjHM": {
-    #         'plate': stri,'time':firestore.SERVER_TIMESTAMP
-        
-    # }})   
-    print(stri)
 # default_app = firebase_admin.initialize_app(crr)
 # db = firestore.client()
 # users_ref = db.collection(u'numberplate').document(u"TOHxHAzbXruzzxLNFjHM")
@@ -55,5 +37,4 @@ def ocr():
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r"cred.json"
 
 client = vision.ImageAnnotatorClient()
-print("okkk")
 ocr()

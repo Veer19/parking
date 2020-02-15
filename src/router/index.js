@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Setup from '../views/Setup.vue'
 import ParkingEnter from '../views/ParkingEnter.vue'
 import ParkingExit from '../views/ParkingExit.vue'
+import OTP from '../views/reqOTP.vue'
 
 Vue.use(VueRouter)
 
@@ -36,6 +37,11 @@ const routes = [
     path: '/parkingExit/:parkingLot',
     name: 'parkingExit',
     component: ParkingExit
+  },
+  {
+    path: '/otp',
+    name: 'otp',
+    component: OTP
   },
   
 ]

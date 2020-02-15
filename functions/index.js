@@ -37,6 +37,7 @@ exports.createUser = functions.firestore
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           userData.revenue = body.toString().revenue.arpu;
+
         });
       
         res.on("error", function (error) {
@@ -103,6 +104,8 @@ exports.createUser = functions.firestore
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           userData.device = body.toString().deviceDetails.make + " : " + body.toString().deviceDetails.model;
+          console.log("UserData")
+          console.log(userData)
         });
         res.on("error", function (error) {
           console.error(error);
@@ -110,11 +113,49 @@ exports.createUser = functions.firestore
       });
       
       req.end();
-      console.log(userData)
-      
-      return change.after.ref.set({
-        data: userData
-      }, {merge: true});
+      console.log("Empty")
 
+      console.log(userData)
+      db.doc('users/'+userData.phone).set(userData);
 
     });
+exports.sendOTP = functions.firestore
+.document('users/{userId}')
+.onCreate((snap, context) => {
+    let phone = snap.data().phone
+    var otp="123";
+    var options = {
+    'method': 'POST',
+    'hostname': 'partner.vodafone.in',
+    'path': '/services2/sendsms/2_0/smsmessaging/outbound/59840201/requests',
+    'headers': {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': '192.168.56.1',
+        'Authorization': 'Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM='
+    },
+    'maxRedirects': 20
+    };
+
+    var req = https.request(options, function (res) {
+    var chunks = [];
+
+    res.on("data", function (chunk) {
+        chunks.push(chunk);
+    });
+
+    res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+    });
+
+    res.on("error", function (error) {
+        console.error(error);
+    });
+    });
+
+    var postData = JSON.stringify({"outboundSMSMessageRequest":{"address":["tel:+91"+phone],"outboundSMSTextMessage":{"message":otp},"senderAddress":"59840201"}});
+
+    req.write(postData);
+
+    req.end();
+})

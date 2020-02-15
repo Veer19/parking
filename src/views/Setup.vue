@@ -58,7 +58,7 @@ export default {
   methods:{
     pushParkingData(){
         
-        this.uid = localStorage.getItem('uid')
+        this.phone = localStorage.getItem('phone')
         this.parkingLotCoordinates.forEach(x=>{
             console.log(x)
             x.numberOfSpots = 5
