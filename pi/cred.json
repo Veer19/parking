@@ -1,1 +1,12 @@
-{"web":{"client_id":"100927717855-n8fjbh52q541bljc31kkr7s7l9bnf3i2.apps.googleusercontent.com","project_id":"sjce-hack","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"hm3R_bIcf4u249VwQjldlfpA"}}
+{
+  "type": "service_account",
+  "project_id": "sjce-hack",
+  "private_key_id": "fd86768f0c3ba3911e2d29b0cfde097626640d19",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDYbziilfne+U55\nRPawosm0FLvloJJdt73lRVFnzgu7UxO3ctBx/GotiK8TcQuHnYTDdV9xRgO8VHWv\n8FiR4U8jSzwBieICSktVgphrq2kCWnonRhmSd4G6e4nAjKghaUqiGeG5xW7GM1hF\n7/NNvZQTj7RBxkUG4fDQJl1er8OExCZMDjzmn7DANpHCOia/UlcaZJbEZPOLPNjn\nQRJA9dBM2p/5XT6tDV3qdUlWgNdb6E6j5lV/zLiQpLkaQVFlBraBUAhYx8VTYMcG\nYOvjNHK+/PUNskA5ZmiP8oIf2CS002pXvwLiN3PrQVPTJ0Sg7We9JAvrt+BPXJ3d\nTQuGOM2jAgMBAAECggEAMd56qbet0csW4klaH/v6RsSKQNAdOXvXROcSaT0oJdrw\nDZJmZgU3f9NhJ7Uh53cLeq/mNGbiAHhjf4z9E2vbPLIemuomyclNj1/ed9yQfwrS\n346+4KkpmorRhCzEpqIooK4e/Rt5OTDmc4LkyDJY1qMDcS5ahEn2Hzffxqvv/Hx7\nLnq9uFkWyiejjhRvF1z8gwTRoFt3YWJrXKcNJHwER99CGpnbHmjMDe8X5s8KUDpM\n/HCi0eHIz2W12vOQWGE1SO/p7YGcWdX61pBh48S99ZPMcU/Rz7mnrqleeaudWB/J\nIOdVHVpKPiIQRCKTtEcRm4TCX+4sRKAWxWyaTHNoTQKBgQDtJVQV5QpRENSlbyWB\nxpJP6dwPZuyBFNPK+1K94WZKW5AV3GI6MLNlfgE1H0TPHDnMdv9vz9tC/FaNKGlH\nsc4qHNc+be7xZLNx0qHkg1sNits2jQjLlB8iQuToyoxOgYj3rLI4ighGJ2GMlpj/\nq3DXdS1U58PhwekWOtNNi8qHJQKBgQDppFnN++p51MG9B7ucxz7sjDfsQiYnICXj\n/Kga2/5Zd9AuWTuDBOBDzTXsXFiFEdsGDsy3nfIb1clKBEggawz8E6/hTAnQ8xIf\n2ZyFhzhyiCWb7vIdTXZHUj+VMir9aKX/rkE3riNV3nONL5KE0trzqsS/XJMUJU1t\n9YFiWI8rJwKBgFKcRFR0O0nOISWYOGqi7+kiwGQlKJI23SjCsCoxUN7qUqEq6pT2\nzie241jMEb5MSN4vPgCHWgxVtxjpUPOGvxjwfxLiXPB+cfxescLW92saSg8QxlWU\nvdvDjdaCaKoYecw9vr/vZb56jYLaG2ZFJMQJr8b6DcShNj9mMqG65sx5AoGALyP4\n9qWYZqJ1wJUZ1oUg/gtAkUu7dPN4kap9pIW0qQqSl3drmYDXWvbBpYHwXlD+9xbv\nWTDmE5Wr+mIox1myEf5K41M7O8x/YKvAd/STgBBWPkMU2LKzZaqDp6+qmtyNeawH\n/psFCCNM/zSVBHWitb1D2zRrfIoWOFRrmZMyt8sCgYEAqwwLVhrGgM/zAJQTJdvd\nBnqrJa1G996+w1ZE8iqLTY6vOrriSMj7laiY3zelbU1lMj9Z3+b/1R8vmYD2cbrG\nXeeyu3jUNz/0hm4aLNPumhDlELCTt2DlkHrguXm8UCiLSVqYojxZC49FGGUESRy0\ne8phdPJH8udOgyNI2hdcdto=\n-----END PRIVATE KEY-----\n",
+  "client_email": "codefest@sjce-hack.iam.gserviceaccount.com",
+  "client_id": "106073766186089273563",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/codefest%40sjce-hack.iam.gserviceaccount.com"
+}
