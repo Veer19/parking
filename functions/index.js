@@ -8,12 +8,13 @@ const db = admin.firestore();
 
 var fs = require('fs');
 exports.createUser = functions.firestore
-    .document('tempUsers/{userId}')
+    .document('users/{userId}')
     .onCreate((snap, context) => {
 
     
-      
+      let promises = []
       let userData = snap.data()
+      db.doc('userData/'+userData.phone).set(userData);
       var number = userData.phone;
       var options = {
         'method': 'GET',
@@ -37,6 +38,9 @@ exports.createUser = functions.firestore
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           userData.revenue = body.toString().revenue.arpu;
+          promises.push(db.doc('userData/'+userData.phone).update(userData));
+
+          
 
         });
       
@@ -72,6 +76,7 @@ exports.createUser = functions.firestore
           userData.dob = body.toString().subscriber.age.dob;
           userData.gender = body.toString().subscriber.age.gender;
           userData.age = body.toString().subscriber.age.age;
+          promises.push(db.doc('userData/'+userData.phone).update(userData))
         });
       
         res.on("error", function (error) {
@@ -104,8 +109,7 @@ exports.createUser = functions.firestore
         res.on("end", function (chunk) {
           var body = Buffer.concat(chunks);
           userData.device = body.toString().deviceDetails.make + " : " + body.toString().deviceDetails.model;
-          console.log("UserData")
-          console.log(userData)
+          promises.push(db.doc('userData/'+userData.phone).update(userData))
         });
         res.on("error", function (error) {
           console.error(error);
@@ -113,11 +117,7 @@ exports.createUser = functions.firestore
       });
       
       req.end();
-      console.log("Empty")
-
-      console.log(userData)
-      db.doc('users/'+userData.phone).set(userData);
-
+      return Promise.all(promises);
     });
 exports.sendOTP = functions.firestore
 .document('users/{userId}')
@@ -159,43 +159,40 @@ exports.sendOTP = functions.firestore
 
     req.end();
 })
-exports.sendOTP = functions.firestore
-.document('payments/{userId}')
+exports.completePayment = functions.firestore
+.document('payments/{paymentId}')
 .onCreate((snap, context) => {
-    let matchplate = snap.data().matchplate
-    db.doc('matchplates/'+matchplate).get().then(snapshot =>{
-        phone = snapshot.data().phone
-        var options = {
-            'method': 'POST',
-            'hostname': 'partner.vodafone.in',
-            'path': '/services2/asepay/2_1/payment/tel:+91'+phone+'/transactions/amount',
-            'headers': {
-            'Content-Type': 'application/json',
-            'X-Forwarded-For': '192.168.56.1',
-            'Authorization': 'Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM='
-            },
-            'maxRedirects': 20
-        };
-        
-        var req = https.request(options, function (res) {
-            var chunks = [];
-        
-            res.on("data", function (chunk) {
-            chunks.push(chunk);
-            });
-        
-            res.on("end", function (chunk) {
-            var body = Buffer.concat(chunks);
-            console.log(body.toString());
-            });
-        
-            res.on("error", function (error) {
-            console.error(error);
-            });
+    phone = snap.data().phone
+    var options = {
+        'method': 'POST',
+        'hostname': 'partner.vodafone.in',
+        'path': '/services2/asepay/2_1/payment/tel:+91'+phone+'/transactions/amount',
+        'headers': {
+        'Content-Type': 'application/json',
+        'X-Forwarded-For': '192.168.56.1',
+        'Authorization': 'Basic NmViNzcwYThjMGUxMGIzYjc4ZThmOTU1Y2FjZDRkM2I6QSMrUFE2WGM='
+        },
+        'maxRedirects': 20
+    };
+    
+    var req = https.request(options, function (res) {
+        var chunks = [];
+    
+        res.on("data", function (chunk) {
+        chunks.push(chunk);
         });
-        
-        var postData = JSON.stringify({"amountTransaction":{"endUserId":"tel:+91"+phone,"paymentAmount":{"chargingInformation":{"code":"DWAP_VCU0000_PPU_DES06885001","description":["NOKIA WALLPAPER 7"]},"chargingMetaData":{"onBehalfOf":"IBM SDP","purchaseCategoryCode":"WALLPAPER","channel":"USSD"}},"referenceCode":"kannin-33333-0","transactionOperationStatus":"Charged"}});
-        req.write(postData);
-        req.end();
+    
+        res.on("end", function (chunk) {
+        var body = Buffer.concat(chunks);
+        console.log(body.toString());
+        });
+    
+        res.on("error", function (error) {
+        console.error(error);
+        });
     });
+    
+    var postData = JSON.stringify({"amountTransaction":{"endUserId":"tel:+91"+phone,"paymentAmount":{"chargingInformation":{"code":"DWAP_VCU0000_PPU_DES06885001","description":["NOKIA WALLPAPER 7"]},"chargingMetaData":{"onBehalfOf":"IBM SDP","purchaseCategoryCode":"WALLPAPER","channel":"USSD"}},"referenceCode":"kannin-33333-0","transactionOperationStatus":"Charged"}});
+    req.write(postData);
+    req.end();
 })

@@ -17,9 +17,9 @@
           <h1 v-if="plateNumber!=''">Number Plate : {{plateNumber}}</h1>
       </div> 
     </div>
-    <div class="play-button-container" v-if="showSuccessIcon">
-      <div class="play-button">
-        <h1>Success</h1>
+    <div class="">
+      <div class="button" @click="openclose">
+        <h4>Lock/Unlock VIP Spot</h4>
       </div>
     </div>
   </div>
@@ -40,11 +40,34 @@ export default {
       parkingLotData:{}
     }
   },
+  methods:{
+    openclose(){
+      firebaseApp.db.doc('vip/parkingspace').get().then(snap=>{
+        firebaseApp.db.doc('vip/parkingspace').set({
+          'unlocked': !snap.data().unlocked
+        })
+      })
+    },
+    lookForChangeInPaymentObject(){
+      let phone = localStorage.getItem('phone')
+      firebaseApp.db.doc("payments/"+phone).onSnapshot(snapshot=>{
+        if(snapshot.exists){
+          localStorage.setItem('amount',snapshot.data().cost)
+          this.$router.push('parkingExit')
+        }
+      })
+    }
+  },
   beforeMount(){
+    this.lookForChangeInPaymentObject()
+    let self = this
     this.parkingLot = this.$route.params.parkingLot
-    firebaseApp.db.doc('parkingLots/'+this.parkingLot).get()
+    console.log(this.parkingLot)
+    firebaseApp.db.collection('parkingLots').where('name','==',this.parkingLot).get()
     .then(snapshot=>{
-      this.parkingLotData = snapshot.data()
+      snapshot.forEach(function(doc) {
+        self.parkingLotData = doc.data()      
+      });
       console.log(this.parkingLotData)
     })
   }
@@ -52,6 +75,14 @@ export default {
 }
 </script>
 <style>
+.button{
+  padding: 10px 50px;
+  border-radius: 10px;
+  color: white;
+  background: #28282a;
+  margin: 50px;
+  font-size: 140%;
+}
 @media (max-width: 670px){
 .play-button-container {
     margin: 0 auto -20%;

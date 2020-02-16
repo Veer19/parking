@@ -95,11 +95,13 @@ export default {
       firebaseApp.db.doc("users/"+phone).onSnapshot(snapshot=>{
         let userData = snapshot.data()
         console.log(userData)
-        if(userData.isParkedAt != ""){
-          this.$router.push('parkingEnter/'+userData.isParkedAt)
-        }
+        if(userData != undefined)
+          if(userData.isParkedAt != "" && userData.isParkedAt != undefined){
+            console.log("REROUTING")
+            this.$router.push('enterParking/'+userData.isParkedAt)
+          }
       })
-    }
+    },
   },
   mounted(){
     this.lookForChangeInUserObject();
@@ -128,12 +130,14 @@ export default {
           abc.parkingLots.push(doc.data())
           console.log(docData)
           let emptySpots = docData.numberOfSpots-docData.spotsFilled
-          emptySpots = emptySpots + ""
-          console.log(emptySpots)
-          abc.parkingMarkers.push(new google.maps.Marker({label:emptySpots,position: {lat:docData.lat,lng:docData.lng}, map: map}))
-
-          
-          //abc.destinations.push(new google.maps.LatLng(docData.lat, docData.lng))
+          if(docData.spots){
+            emptySpots = docData.spots
+          }
+          if(emptySpots>0){
+            emptySpots = emptySpots + ""
+            console.log(emptySpots)
+            abc.parkingMarkers.push(new google.maps.Marker({label:emptySpots,position: {lat:docData.lat,lng:docData.lng}, map: map}))
+          }
         })
         let service = new google.maps.DistanceMatrixService();
         abc.parkingMarkers.forEach(marker => {

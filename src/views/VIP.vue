@@ -1,10 +1,9 @@
 <template>
   <div class="home">
     <br><br><br><br>
-    <h1>Payment Sucessfull</h1>
     <div class="play-button-container">
-      <div class="play-button">
-        Rs.{{paymentAmount}}
+      <div class="play-button" @click="openclose">
+        Open/Close
       </div>
     </div>
   </div>
@@ -21,6 +20,15 @@ export default {
     return {
       paymentAmount:'',
       parkingLotData:{}
+    }
+  },
+  methods:{
+    openclose(){
+      firebaseApp.db.doc('vip/parkingspace').get().then(snap=>{
+        firebaseApp.db.doc('vip/parkingspace').set({
+          'unlocked': !snap.data().unlocked
+        })
+      })
     }
   },
   beforeMount(){

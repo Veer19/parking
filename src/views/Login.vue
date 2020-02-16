@@ -1,7 +1,7 @@
 <template class=''>
 <div class="columns background">
   <div class="column">
-    <h1 class="tagline">Wanna Park?</h1>
+    <h1 class="tagline">VodaPark</h1>
     <br><br><br><br><br><br><br><br><br><br><br><br><br>
     <div>
       <div class="modal popup1"> 
@@ -23,7 +23,7 @@
           <div>
             <div class="question" style="font-size: 40px;">Who are you?</div>
             <div class="sumbitButton fancy-button bg-gradient2" @click="submitAnswer('admin')"><span><i class="fa fa-envelope"></i>I own a parking lot</span></div>
-            <div class="sumbitButton fancy-button bg-gradient2" @click="submitAnswer('user')"><span><i class="fa fa-envelope"></i>I park my car a lot</span></div>
+            <div class="sumbitButton fancy-button bg-gradient2" @click="submitAnswer('user')"><span><i class="fa fa-envelope"></i>Get Nearest Parking Spot</span></div>
           </div>
         </div> 
       </div>
@@ -55,12 +55,13 @@ export default {
       else {
         //Creating Admin Account
         localStorage.setItem('phone',this.phone)
-        firebaseApp.db.doc("tempUsers/"+this.phone).get()
+        firebaseApp.db.doc("users/"+this.phone).get()
         .then(doc => {
           if(!doc.exists){
-            firebaseApp.db.doc("tempUsers/"+this.phone).set({
+            firebaseApp.db.doc("users/"+this.phone).set({
               "phone":this.phone,
               "type":"admin",
+              "isParkedAt":""
             })
           }
           this.$router.push('setup')
@@ -79,19 +80,21 @@ export default {
     },
     createUserAccount(){
       localStorage.setItem('phone',this.phone)
-      firebaseApp.db.doc("tempUsers/"+this.phone).get()
+      console.log("REached 0")
+      firebaseApp.db.doc("users/"+this.phone).get()
       .then(doc => {
         if(!doc.exists){
-          firebaseApp.db.doc("tempUsers/"+this.phone).set({
+          console.log("REached 1")
+          firebaseApp.db.doc("users/"+this.phone).set({
             "phone":this.phone,
             "isParkedAt":"",
             "plate":this.plateNumber,
             "type":this.type
           })
-          firebaseApp.db.doc("matchplates/"+this.plateNumber).set({
+          console.log("REached 2")
+          firebaseApp.db.doc("matchplates/"+this.plateNumber.substring(9,14)).set({
             "phone":this.phone
           })
-          
         }
         this.$router.push('otp')
       })

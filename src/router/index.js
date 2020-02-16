@@ -6,6 +6,7 @@ import Setup from '../views/Setup.vue'
 import ParkingEnter from '../views/ParkingEnter.vue'
 import ParkingExit from '../views/ParkingExit.vue'
 import OTP from '../views/reqOTP.vue'
+import VIP from '../views/VIP.vue'
 
 Vue.use(VueRouter)
 
@@ -28,21 +29,57 @@ const routes = [
     name: 'setup',
     component: Setup
   },
+  
   {
-    path: '/parkingEnter/:parkingLot',
+    path: '/enterParking/parkingExit',
+    name: 'parkingExit',
+    component: ParkingExit
+  },
+  {
+    path: '/enterParking/:parkingLot',
     name: 'parkingEnter',
     component: ParkingEnter
   },
   {
-    path: '/parkingExit/:parkingLot',
-    name: 'parkingExit',
-    component: ParkingExit
+    path: '/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  {
+    path: '/enterParking/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  {
+    path: '/enterParking/enterParking/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  {
+    path: '/enterParking/enterParking/enterParking/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  {
+    path: '/enterParking/enterParking/enterParking/enterParking/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
+  },
+  {
+    path: '/enterParking/enterParking/enterParking/enterParking/enterParking/enterParking/enterParking/:parkingLot',
+    name: 'parkingEnter',
+    component: ParkingEnter
   },
   {
     path: '/otp',
     name: 'otp',
     component: OTP
   },
+  {
+    path: '/vip',
+    name: 'vip',
+    component: VIP
+  }
   
 ]
 
