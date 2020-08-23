@@ -1,5 +1,5 @@
 const firebaseConfig = {
-    apiKey: "AIzaSyAPKTj6I6hDtyxs-d0z1BxN7OAkMvm9XVc",
+    apiKey: "XXXXXXXXXXXXXXXXXXXXXXXXX",
     authDomain: "vodapark-20.firebaseapp.com",
     databaseURL: "https://vodapark-20.firebaseio.com",
     projectId: "vodapark-20",
