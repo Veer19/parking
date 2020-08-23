@@ -1,12 +1,12 @@
 const firebaseConfig = {
-    "apiKey": "AIzaSyAxZj2_365R_O6o82f4vwY6M8ir6ykN8tw",
-    "authDomain": "sjce-hack.firebaseapp.com",
-    "databaseURL": "https://sjce-hack.firebaseio.com",
-    "projectId": "sjce-hack",
-    "storageBucket": "sjce-hack.appspot.com",
-    "messagingSenderId": "100927717855",
-    "appId": "1:100927717855:web:8058b4ef832ce5634a446a",
-    "measurementId": "G-SE3ESM9E6X"
+    apiKey: "AIzaSyAPKTj6I6hDtyxs-d0z1BxN7OAkMvm9XVc",
+    authDomain: "vodapark-20.firebaseapp.com",
+    databaseURL: "https://vodapark-20.firebaseio.com",
+    projectId: "vodapark-20",
+    storageBucket: "vodapark-20.appspot.com",
+    messagingSenderId: "820475761120",
+    appId: "1:820475761120:web:90bfb7f23ae1074dc9db85",
+    measurementId: "G-4SYSJC697M"
 };
 import firebase from 'firebase'
 import 'firebase/firestore'

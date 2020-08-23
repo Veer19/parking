@@ -16,7 +16,7 @@ cred = credentials.Certificate("cred.json")
 firebase_admin.initialize_app(cred, {
     'databaseURL': 'https://sjce-hack.firebaseio.com'
 })
-db = firestore.client();
+db = firestore.client()
 refMatchplateCollection = db.collection(u'matchplates')
 refUserCollection = db.collection(u'users')
 refParkingCollection = db.collection(u'parkingLots')

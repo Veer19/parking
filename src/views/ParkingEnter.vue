@@ -6,7 +6,7 @@
     <h3>Follow the Green Light</h3>
     <div class="play-button-container">
       <div class="play-button">
-        {{parkingLotData.numberOfSpots - parkingLotData.spotsFilled}} Spots Left
+        4 Spots Left
       </div>
     </div>
     <div class=""> 
